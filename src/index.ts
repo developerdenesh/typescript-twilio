@@ -13,8 +13,6 @@ const accountSid: string = process.env.ACCOUNT_SID || ''
 const authToken: string = process.env.AUTH_TOKEN || ''
 const client = new Twilio(accountSid, authToken);
 const robot_name = process.env.ROBOT_NAME || '';
-const final_number = process.env.FINAL_NUMBER || '';
-const our_number = process.env.OUR_NUMBER || '';
 const sms_id = process.env.SMS_ID || ''
 
 const phone_numbers_debug: string = process.env.DEBUG_NUMBERS || ''
@@ -25,10 +23,13 @@ const phone_numbers_production_arr: Array<string> = phone_numbers_production.spl
 
 
 app.get('/', (req: Request, res: Response) => {
-    res.send('Welcome to the sms api. The 2 apis are: cleaning_completed and bumper_engaged');
+    const message = 'Welcome to the sms api. The 2 apis are: cleaning_completed and bumper_engaged';
+    console.log(message)
+    res.send(message);
 });
 
 app.get('/cleaning_completed', (req: Request, res: Response) => {
+    console.log("inside the cleaning completed endpoint")
     const date: Date = new Date();
     const body: string = `${robot_name}: Cleaning plan is completed for Terminal 4 at time: ${date}`;
 
@@ -47,6 +48,7 @@ app.get('/cleaning_completed', (req: Request, res: Response) => {
 });
 
 app.get('/bumper_engaged', (req: Request, res: Response) => {
+    console.log("inside the bumper engaged endpoint")
     const body: string = `${robot_name}: Robot has been stopped. Please release the emergency stop`;
 
     phone_numbers_debug_arr.map(out_number => {
@@ -60,7 +62,6 @@ app.get('/bumper_engaged', (req: Request, res: Response) => {
         })
     }
 
-    
     res.send('Sending bumper engaged request ' + body);
 });
 
