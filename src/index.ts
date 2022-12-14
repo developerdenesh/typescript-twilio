@@ -37,7 +37,7 @@ app.get('/cleaning_completed', (req: Request, res: Response) => {
         sendMessage(client, body, out_number, sms_id)
     })
 
-    if (environment = "PRODUCTION") {
+    if (environment === "PRODUCTION") {
         phone_numbers_production_arr.map(out_number => {
             sendMessage(client, body, out_number, sms_id)
         })
@@ -54,7 +54,7 @@ app.get('/bumper_engaged', (req: Request, res: Response) => {
         sendMessage(client, body, out_number, sms_id)
     })
 
-    if (environment = "PRODUCTION") {
+    if (environment === "PRODUCTION") {
         phone_numbers_production_arr.map(out_number => {
             sendMessage(client, body, out_number, sms_id)
         })
