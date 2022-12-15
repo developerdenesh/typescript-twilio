@@ -21,7 +21,6 @@ const phone_numbers_debug_arr: Array<string> = phone_numbers_debug.split(" ") ||
 const phone_numbers_production: string = process.env.PRODUCTION_NUMBERS || ''
 const phone_numbers_production_arr: Array<string> = phone_numbers_production.split(" ") || []
 
-
 app.get('/', (req: Request, res: Response) => {
     const message = 'Welcome to the sms api. The 2 apis are: cleaning_completed and bumper_engaged';
     console.log(message)
@@ -31,7 +30,8 @@ app.get('/', (req: Request, res: Response) => {
 app.get('/cleaning_completed', (req: Request, res: Response) => {
     console.log("inside the cleaning completed endpoint")
     const date: Date = new Date();
-    const body: string = `${robot_name}: Cleaning plan is completed for Terminal 4 at time: ${date}`;
+    const singapore_date = date.toLocaleString("en-GB", { timeZone: 'Asia/Singapore' })
+    const body: string = `${robot_name}: Cleaning plan is completed for Terminal 4 at time: ${singapore_date}`;
 
     phone_numbers_debug_arr.map(out_number => {
         // TODO check how to dereference and provide types in typescript
