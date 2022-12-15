@@ -2,12 +2,16 @@ import express, { Express, Request, Response } from 'express';
 import dotenv from 'dotenv';
 import { Twilio } from "twilio";
 import { sendMessage } from './helper'
+import path from 'path'
 
 dotenv.config();
 
 const app: Express = express();
-const port = process.env.PORT || 3000;
 
+// set the view engine to ejs
+app.set('view engine', 'ejs');
+
+const port = process.env.PORT || 3000;
 const environment: string = process.env.ENVIRONMENT || ''
 const accountSid: string = process.env.ACCOUNT_SID || ''
 const authToken: string = process.env.AUTH_TOKEN || ''
@@ -24,7 +28,8 @@ const phone_numbers_production_arr: Array<string> = phone_numbers_production.spl
 app.get('/', (req: Request, res: Response) => {
     const message = 'Welcome to the sms api. The 2 apis are: cleaning_completed and bumper_engaged';
     console.log(message)
-    res.send(message);
+    // res.send(message);
+    res.sendFile(path.join(__dirname, '../index.html'));
 });
 
 app.get('/cleaning_completed', (req: Request, res: Response) => {
