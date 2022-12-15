@@ -50,7 +50,7 @@ app.get('/cleaning_completed_debug', (req: Request, res: Response) => {
     console.log("inside the cleaning completed endpoint for debugging")
     const date: Date = new Date();
     const singapore_date = date.toLocaleString("en-GB", { timeZone: 'Asia/Singapore' })
-    const body: string = `${robot_name}: Cleaning plan is completed for Terminal 4 at time: ${singapore_date}`;
+    const body: string = `${robot_name}: Cleaning plan is completed for Terminal 4 at time: ${singapore_date} (this is a test message)`;
 
     // This method only sends to the debug numbers
     phone_numbers_debug_arr.map(out_number => {
@@ -79,7 +79,7 @@ app.get('/bumper_engaged', (req: Request, res: Response) => {
 
 app.get('/bumper_engaged_debug', (req: Request, res: Response) => {
     console.log("inside the bumper engaged endpoint for debugging")
-    const body: string = `${robot_name}: Robot has been stopped. Please release the emergency stop`;
+    const body: string = `${robot_name}: Robot has been stopped. Please release the emergency stop (this is a test message)`;
 
     // This method only sends to the debug numbers
     phone_numbers_debug_arr.map(out_number => {
