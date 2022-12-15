@@ -1,4 +1,6 @@
-export const sendMessage = (client: any, body: string, out_number: string, sms_id: string) => {
+import { Twilio } from "twilio"
+
+export const sendMessage = ({ client, body, out_number, sms_id }: {client: Twilio, body: string, out_number: string, sms_id: string}) => {
     client.messages
         .create({
             body: body,

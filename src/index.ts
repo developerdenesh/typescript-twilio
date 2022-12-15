@@ -34,13 +34,12 @@ app.get('/cleaning_completed', (req: Request, res: Response) => {
     const body: string = `${robot_name}: Cleaning plan is completed for Terminal 4 at time: ${singapore_date}`;
 
     phone_numbers_debug_arr.map(out_number => {
-        // TODO check how to dereference and provide types in typescript
-        sendMessage(client, body, out_number, sms_id)
+        sendMessage({ client, body, out_number, sms_id })
     })
 
     if (environment === "PRODUCTION") {
         phone_numbers_production_arr.map(out_number => {
-            sendMessage(client, body, out_number, sms_id)
+            sendMessage({ client, body, out_number, sms_id })
         })
     }
 
@@ -52,18 +51,18 @@ app.get('/bumper_engaged', (req: Request, res: Response) => {
     const body: string = `${robot_name}: Robot has been stopped. Please release the emergency stop`;
 
     phone_numbers_debug_arr.map(out_number => {
-        // TODO check how to dereference and provide types in typescript
-        sendMessage(client, body, out_number, sms_id)
+        sendMessage({ client, body, out_number, sms_id })
     })
 
     if (environment === "PRODUCTION") {
         phone_numbers_production_arr.map(out_number => {
-            sendMessage(client, body, out_number, sms_id)
+            sendMessage({client, body, out_number, sms_id })
         })
     }
 
     res.send('Sending bumper engaged request ' + body);
 });
+
 
 app.listen(port, () => {
     // NO SSL at the moment
