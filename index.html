@@ -40,7 +40,7 @@
 
 <body>
     <h1 class="centering">
-        Welcome to the SMS notification page
+        Welcome to the notification page
     </h1>
     <div class="bottom-centering">
         <button class="btn btn-danger btn-padding" onclick="emergencyStop()">
@@ -48,6 +48,9 @@
         </button>
         <button class="btn btn-dark btn-padding" onclick="endOfCleaningPlan()">
             End of Cleaning Plan
+        </button>
+        <button class="btn btn-success btn-padding" onclick="startOfCleaningPlan()">
+            Start of Cleaning Plan
         </button>
     </div>
 </body>
@@ -76,6 +79,21 @@
                     position: 'middle',
                     icon: 'success',
                     title: 'Emergency stop sms sent',
+                    showConfirmButton: false,
+                    timer: 1500
+                })
+                console.log(response)
+            })
+    }
+
+    const startOfCleaningPlan = () => {
+        console.log("debugging to start the cleaning plan")
+        fetch(`${url}cleaning_starting`)
+            .then((response) => {
+                Swal.fire({
+                    position: 'middle',
+                    icon: 'success',
+                    title: 'Cleaning started sms has been sent',
                     showConfirmButton: false,
                     timer: 1500
                 })

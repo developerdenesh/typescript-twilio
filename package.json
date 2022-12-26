@@ -7,7 +7,7 @@
     "test": "echo \"Error: no test specified\" && exit 1",
     "start:dev": "ENVIRONMENT=DEVELOPMENT npx nodemon",
     "build": "tsc",
-    "zip": "rm *.zip | zip -r eb.zip . -x 'node_modules/*' -x 'src/'",
+    "zip": "rm *.zip | zip -r eb.zip . -x 'node_modules/*' -x 'src/' -x '.git/*'",
     "start": "node build/index.js"
   },
   "keywords": [],
