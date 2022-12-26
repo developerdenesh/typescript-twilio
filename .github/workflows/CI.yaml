@@ -26,6 +26,10 @@ jobs:
        run: |
           echo "${{ secrets.ENV_FILE }}" > .env
           ls
+     
+     - name: 'Install npm modules'
+       run: |
+          npm i
 
      - name: 'Build typescript files'
        run: |
