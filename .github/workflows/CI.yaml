@@ -25,9 +25,17 @@ jobs:
      - name: 'Create env file'
        run: |
           echo "${{ secrets.ENV_FILE }}" > .env
+          ls
+
+     - name: 'Build typescript files'
+       run: |
+          pwd
+          ls
+          npm run build
+          ls
     
      - name: Make zip
-       run: rm *.zip | zip -r eb.zip . -x 'node_modules/*' -x 'src/' -x '.git/*'
+       run: rm *.zip | zip -r ${{ env.DEPLOY_PKG_NAME }}.zip . -x 'node_modules/*' -x 'src/' -x '.git/*'
        
      - name: Config Access to AWS
        uses: aws-actions/configure-aws-credentials@v1
