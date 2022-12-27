@@ -28,7 +28,11 @@ app.get('/', (req: Request, res: Response) => {
     const message = 'Welcome to the sms api. The 2 apis are: cleaning_completed and bumper_engaged';
     console.log(message)
     // res.send(message);
-    res.sendFile(path.join(__dirname, '../index.html'));
+
+    const headline = "Welcome to the Notifications page"
+    res.render(path.join(__dirname, '../index'), {
+        headline: headline,
+    });
 });
 
 app.get('/cleaning_completed', (req: Request, res: Response) => {
