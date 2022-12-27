@@ -1,28 +1,27 @@
 import express, { Express, Request, Response } from 'express';
-import dotenv from 'dotenv';
 import { Twilio } from "twilio";
 import { sendMessage } from './helper'
+import { 
+    accountSid, 
+    authToken, 
+    environment, 
+    phone_numbers_debug, 
+    phone_numbers_production, 
+    port,
+    robot_name, 
+    sms_id, 
+} from './variables'
 import path from 'path'
 
-dotenv.config();
-
+// Using the express backend library
 const app: Express = express();
 
-// set the view engine to ejs
+// Set the view engine to ejs
 app.set('view engine', 'ejs');
 
-const port = process.env.PORT || 3000;
-const environment: string = process.env.ENVIRONMENT || ''
-const accountSid: string = process.env.ACCOUNT_SID || ''
-const authToken: string = process.env.AUTH_TOKEN || ''
+// Constant variables to be used in the endpoints later
 const client = new Twilio(accountSid, authToken);
-const robot_name = process.env.ROBOT_NAME || '';
-const sms_id = process.env.SMS_ID || ''
-
-const phone_numbers_debug: string = process.env.DEBUG_NUMBERS || ''
 const phone_numbers_debug_arr: Array<string> = phone_numbers_debug.split(" ") || []
-
-const phone_numbers_production: string = process.env.PRODUCTION_NUMBERS || ''
 const phone_numbers_production_arr: Array<string> = phone_numbers_production.split(" ") || []
 
 app.get('/', (req: Request, res: Response) => {
