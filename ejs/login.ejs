@@ -44,8 +44,8 @@
     </h1>
     <h2 class="centering">
         <form action="/home" method="POST">
-            <input name="username" type="text" placeholder="Username:"></input>
-            <input name="password" type="password" placeholder="Password:"></input>
+            <input name="username" type="text" autocomplete="off" placeholder="Username:"></input>
+            <input name="password" type="password" autocomplete="off" placeholder="Password:"></input>
             <button class="btn btn-dark">Submit</button>
         </form>
     </h2>
@@ -96,6 +96,13 @@
                 console.log(response)
             })
     }
+
+    window.addEventListener("pageshow", () => {
+        // Reset the form 
+        Array.from(document.getElementsByTagName("form")).forEach((element) => {
+            element.reset()
+        });
+    });
 </script>
 
 </html>
