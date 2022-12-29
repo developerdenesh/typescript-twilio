@@ -4,11 +4,13 @@ import { sendMessage } from './helper'
 import { 
     accountSid, 
     authToken, 
-    environment, 
+    environment,
+    password, 
     phone_numbers_debug, 
     phone_numbers_production, 
     port,
     robot_name, 
+    username,
     sms_id, 
 } from './variables'
 import path from 'path'
@@ -19,19 +21,34 @@ const app: Express = express();
 // Set the view engine to ejs
 app.set('view engine', 'ejs');
 
+// This is required to make forms work
+app.use(express.urlencoded({ extended: true }))
+
 // Constant variables to be used in the endpoints later
 const client = new Twilio(accountSid, authToken);
 const phone_numbers_debug_arr: Array<string> = phone_numbers_debug.split(" ") || []
 const phone_numbers_production_arr: Array<string> = phone_numbers_production.split(" ") || []
+
+app.post('/home', (req: Request, res: Response) => {
+    console.log('Welcome to the sms api. The 2 apis are: cleaning_completed and bumper_engaged');
+
+    if (req.body.username === username && req.body.password === password) {
+        res.render(path.join(__dirname, '../ejs/index'), {
+            headline: "Welcome to the Notifications page",
+        });
+    }
+    else {
+        res.redirect("/")
+    }
+});
 
 app.get('/', (req: Request, res: Response) => {
     const message = 'Welcome to the sms api. The 2 apis are: cleaning_completed and bumper_engaged';
     console.log(message)
     // res.send(message);
 
-    const headline = "Welcome to the Notifications page"
-    res.render(path.join(__dirname, '../index'), {
-        headline: headline,
+    res.render(path.join(__dirname, '../ejs/login'), {
+        headline: "Login",
     });
 });
 
@@ -135,5 +152,5 @@ app.get('/bumper_engaged_debug', (req: Request, res: Response) => {
 
 app.listen(port, () => {
     // NO SSL at the moment
-    console.log(`⚡️[server]: Server is running at http://localhost:${port}`);
+    console.log(`⚡️⚡️⚡️ Server is running at http://localhost:${port}`);
 });

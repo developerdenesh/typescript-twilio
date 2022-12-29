@@ -13,3 +13,5 @@ export const robot_name = process.env.ROBOT_NAME || '';
 export const sms_id = process.env.SMS_ID || ''
 export const phone_numbers_debug: string = process.env.DEBUG_NUMBERS || ''
 export const phone_numbers_production: string = process.env.PRODUCTION_NUMBERS || ''
+export const username: string = process.env.UNAME || ''
+export const password: string = process.env.PASSWORD || ''
