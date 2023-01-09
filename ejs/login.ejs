@@ -52,51 +52,6 @@
 </body>
 
 <script>
-    const url = window.location.href;
-
-    const endOfCleaningPlan = () => {
-        fetch(`${url}cleaning_completed`)
-            .then((response) => {
-                Swal.fire({
-                    position: 'middle',
-                    icon: 'success',
-                    title: 'End of cleaning plan sms sent',
-                    showConfirmButton: false,
-                    timer: 1500
-                })
-                console.log(response)
-            })
-    }
-
-    const emergencyStop = () => {
-        fetch(`${url}bumper_engaged`)
-            .then((response) => {
-                Swal.fire({
-                    position: 'middle',
-                    icon: 'success',
-                    title: 'Emergency stop sms sent',
-                    showConfirmButton: false,
-                    timer: 1500
-                })
-                console.log(response)
-            })
-    }
-
-    const startOfCleaningPlan = () => {
-        console.log("debugging to start the cleaning plan")
-        fetch(`${url}cleaning_starting`)
-            .then((response) => {
-                Swal.fire({
-                    position: 'middle',
-                    icon: 'success',
-                    title: 'Cleaning started sms has been sent',
-                    showConfirmButton: false,
-                    timer: 1500
-                })
-                console.log(response)
-            })
-    }
-
     window.addEventListener("pageshow", () => {
         // Reset the form 
         Array.from(document.getElementsByTagName("form")).forEach((element) => {
