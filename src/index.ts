@@ -48,7 +48,7 @@ app.get('/', (req: Request, res: Response) => {
     // res.send(message);
 
     res.render(path.join(__dirname, '../ejs/login'), {
-        headline: "Login",
+        headline: "Login Page",
     });
 });
 
