@@ -1,5 +1,5 @@
 # Notifications 
-This is the notifications endpoint for Flexa UI
+This is the notifications endpoint for the UI
 
 ## Quick Set up
 ```sh
@@ -39,13 +39,12 @@ DEBUG_NUMBERS=+6592345678        # Free to define
 PRODUCTION_NUMBERS=+6582345678   # Free to define
 ```
 
-## Building a docker image
+## Building and running docker image
 ```sh
 # -t flag is to name and optionally a tag in the 'name:tag' format
 sudo docker build -t developerdenesh/typescript-notifications:1.0 .
 sudo docker run --env-file=.env -p 3000:3000 developerdenesh/typescript-notifications:1.0
 ```
-
 
 ## CI/CD
 Upon pushing to the main branch, the CI action will build the typescript code and create a corresponding zip file. This zip file will be pushed 
