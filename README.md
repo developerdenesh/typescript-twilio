@@ -27,19 +27,24 @@ npm run zip
 
 ## Example .env file
 ```bash
-ENVIRONMENT = PRODUCTION || DEVELOPMENT
-ACCOUNT_SID = <Twilio Account SID> # Obtain from twilio
-AUTH_TOKEN = <Twilio Auth Token>   # Obtain from twilio
-UNAME = "username"                 # Free to define 
-PASSWORD = "password"              # Free to define
-ROBOT_NAME = VIKI                  # Free to define
-OUR_NUMBER = +1234567890           # Obtain from twilio
-SMS_ID = <SMS_ID>                  # Obtain from twilio
-DEBUG_NUMBERS = +6592345678        # Free to define
-PRODUCTION_NUMBERS = +6582345678   # Free to define
+ENVIRONMENT=PRODUCTION || DEVELOPMENT
+ACCOUNT_SID=<Twilio Account SID> # Obtain from twilio
+AUTH_TOKEN=<Twilio Auth Token>   # Obtain from twilio
+UNAME=username                   # Free to define 
+PASSWORD=password                # Free to define
+ROBOT_NAME=VIKI                  # Free to define
+OUR_NUMBER=+1234567890           # Obtain from twilio
+SMS_ID=<SMS_ID>                  # Obtain from twilio
+DEBUG_NUMBERS=+6592345678        # Free to define
+PRODUCTION_NUMBERS=+6582345678   # Free to define
 ```
 
 ## Building a docker image
+```sh
+# -t flag is to name and optionally a tag in the 'name:tag' format
+sudo docker build -t developerdenesh/typescript-notifications:1.0 .
+sudo docker run --env-file=.env -p 3000:3000 developerdenesh/typescript-notifications:1.0
+```
 
 
 ## CI/CD

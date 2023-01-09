@@ -8,7 +8,7 @@
     "start:dev": "ENVIRONMENT=DEVELOPMENT npx nodemon",
     "start": "node build/index.js",
     "build": "tsc",
-    "zip": "rm *.zip | zip -r eb.zip . -x 'node_modules/*' -x 'src/' -x '.git/*'",
+    "zip": "rm *.zip | zip -r eb.zip . -x 'node_modules/*' -x 'src/' -x '.git/*'"
   },
   "keywords": [],
   "author": "",
