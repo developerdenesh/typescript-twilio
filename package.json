@@ -6,9 +6,9 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "start:dev": "ENVIRONMENT=DEVELOPMENT npx nodemon",
+    "start": "node build/index.js",
     "build": "tsc",
     "zip": "rm *.zip | zip -r eb.zip . -x 'node_modules/*' -x 'src/' -x '.git/*'",
-    "start": "node build/index.js"
   },
   "keywords": [],
   "author": "",
