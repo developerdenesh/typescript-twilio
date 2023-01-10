@@ -1,0 +1,16 @@
+name: Hello
+
+on:
+  push:
+    branches: [ "main" ]
+  pull_request:
+    branches: [ "main" ]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+    - name: Say Hello
+      uses: developerdenesh/action@main
+      with:
+        name: Typescript
