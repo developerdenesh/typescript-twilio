@@ -64,16 +64,15 @@ jobs:
           aws-secret-access-key: ${{ secrets.AWS_SECRET_KEY }}
           aws-region: ${{ env.AWS_REGION_NAME }}
 
-      - name: Create new App Version
+      - name: Create new App Version and deploy
         run: |
+          NOW=$(date)
           aws elasticbeanstalk create-application-version \
           --application-name ${{ env.APP_NAME }} \
           --source-bundle S3Bucket="${{ env.APP_S3_BUCKET_NAME }}",S3Key="${{ env.DEPLOY_PKG_NAME }}" \
-          --version-label "Ver-${{ github.sha }}" \
+          --version-label "Ver-${{ github.sha }}$NOW" \
           --description "SHA-${{ github.sha }}"
-
-      - name: Deploy new App Version
-        run: aws elasticbeanstalk update-environment --environment-name ${{ env.ENV_NAME }} --version-label "Ver-${{ github.sha }}${{ date }}"
+          aws elasticbeanstalk update-environment --environment-name ${{ env.ENV_NAME }} --version-label "Ver-${{ github.sha }}$NOW"
 
       - name: Print msg
         run: echo "CD part is finished"
