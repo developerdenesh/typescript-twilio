@@ -73,7 +73,7 @@ jobs:
           --description "SHA-${{ github.sha }}"
 
       - name: Deploy new App Version
-        run: aws elasticbeanstalk update-environment --environment-name ${{ env.ENV_NAME }} --version-label "Ver-${{ github.sha }}"
+        run: aws elasticbeanstalk update-environment --environment-name ${{ env.ENV_NAME }} --version-label "Ver-${{ github.sha }}${{ date }}"
 
       - name: Print msg
         run: echo "CD part is finished"
