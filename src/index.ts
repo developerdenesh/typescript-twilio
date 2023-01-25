@@ -23,12 +23,14 @@ app.set('view engine', 'ejs');
 
 // This is required to make forms work
 app.use(express.urlencoded({ extended: true }))
+app.use(express.json())
 
 // Constant variables to be used in the endpoints later
 const client = new Twilio(accountSid, authToken);
 const phone_numbers_debug_arr: Array<string> = phone_numbers_debug.split(" ") || []
 const phone_numbers_production_arr: Array<string> = phone_numbers_production.split(" ") || []
 
+// These are the views
 app.post('/home', (req: Request, res: Response) => {
     console.log('Welcome to the sms api. The 2 apis are: cleaning_completed and bumper_engaged');
 
@@ -52,6 +54,13 @@ app.get('/', (req: Request, res: Response) => {
     });
 });
 
+app.get('/custom', (req: Request, res: Response) => {
+    res.render(path.join(__dirname, '../ejs/custom'), {
+        headline: "Custom Message",
+    });
+});
+
+// These are the API endpoints
 app.get('/cleaning_completed', (req: Request, res: Response) => {
     console.log("inside the cleaning completed endpoint")
     const date: Date = new Date();
@@ -123,7 +132,9 @@ app.get('/cleaning_starting_debug', (req: Request, res: Response) => {
 
 app.get('/bumper_engaged', (req: Request, res: Response) => {
     console.log("inside the bumper engaged endpoint")
-    const body: string = `${robot_name}: Robot has been stopped. Please release the emergency stop`;
+    const date: Date = new Date();
+    const singapore_date = date.toLocaleString("en-GB", { timeZone: 'Asia/Singapore' })
+    const body: string = `${robot_name}: Robot has been stopped at ${singapore_date}. Please release the emergency stop`;
 
     phone_numbers_debug_arr.map(out_number => {
         sendMessage({ client, body, out_number, sms_id })
@@ -140,7 +151,9 @@ app.get('/bumper_engaged', (req: Request, res: Response) => {
 
 app.get('/bumper_engaged_debug', (req: Request, res: Response) => {
     console.log("inside the bumper engaged endpoint for debugging")
-    const body: string = `${robot_name}: Robot has been stopped. Please release the emergency stop (this is a test message)`;
+    const date: Date = new Date();
+    const singapore_date = date.toLocaleString("en-GB", { timeZone: 'Asia/Singapore' })
+    const body: string = `${robot_name}: Robot has been stopped at ${singapore_date}. Please release the emergency stop (this is a test message)`;
 
     // This method only sends to the debug numbers
     phone_numbers_debug_arr.map(out_number => {
@@ -150,6 +163,21 @@ app.get('/bumper_engaged_debug', (req: Request, res: Response) => {
     res.send('Sending bumper engaged request ' + body);
 });
 
+app.post('/send_custom_message', (req: Request, res: Response) => {
+    console.log("inside the custom sms endpoint")
+    const date: Date = new Date();
+    const singapore_date = date.toLocaleString("en-GB", { timeZone: 'Asia/Singapore' })
+    const body: string = `${singapore_date}: ${req.body.message}`;
+
+    // This method only sends to the debug numbers
+    phone_numbers_debug_arr.map(out_number => {
+        sendMessage({ client, body, out_number, sms_id })
+    })
+
+    res.send('Custom message: ' + body);
+});
+
+// This is the listening for the localhost
 app.listen(port, () => {
     // NO SSL at the moment
     console.log(`⚡️⚡️⚡️ Server is running at http://localhost:${port}`);

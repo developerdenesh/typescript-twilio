@@ -35,6 +35,11 @@
         .btn-padding {
             margin: 10px;
         }
+
+        .custom {
+            padding: 30px;
+            width: 49vw;
+        }
     </style>
 </head>
 
@@ -48,15 +53,25 @@
         <%= headline %>
     </h1>
     <div class="bottom-centering">
-        <button class="btn btn-danger btn-padding" onclick="emergencyStop()">
-            Emergency Stop
-        </button>
-        <button class="btn btn-dark btn-padding" onclick="endOfCleaningPlan()">
-            End of Cleaning Plan
-        </button>
-        <button class="btn btn-success btn-padding" onclick="startOfCleaningPlan()">
-            Start of Cleaning Plan
-        </button>
+        <div class="row">
+            <button class="btn btn-danger btn-padding" onclick="emergencyStop()">
+                Emergency Stop
+            </button>
+            <button class="btn btn-dark btn-padding" onclick="endOfCleaningPlan()">
+                End of Cleaning Plan
+            </button>
+            <button class="btn btn-success btn-padding" onclick="startOfCleaningPlan()">
+                Start of Cleaning Plan
+            </button>
+        </div>
+    </div>
+
+    <div class="container custom">
+        <a class="nav-link" href="/custom">
+            <button class="btn btn-dark btn-block" onclick="console.log('glass')">
+                Custom SMS
+            </button>
+        </a>
     </div>
 </body>
 
@@ -66,13 +81,23 @@
     const endOfCleaningPlan = () => {
         fetch(`${url}cleaning_completed`)
             .then((response) => {
-                Swal.fire({
-                    position: 'middle',
-                    icon: 'success',
-                    title: 'End of cleaning plan sms sent',
-                    showConfirmButton: false,
-                    timer: 1500
-                })
+                if (response.status === 404) {
+                    Swal.fire({
+                        position: 'center',
+                        icon: 'error',
+                        title: `Unable to send message`,
+                        showConfirmButton: false,
+                        timer: 1500
+                    })
+                } else {
+                    Swal.fire({
+                        position: 'center',
+                        icon: 'success',
+                        title: 'End of cleaning plan sms sent',
+                        showConfirmButton: false,
+                        timer: 1500
+                    })
+                }
                 console.log(response)
             })
     }
@@ -80,13 +105,23 @@
     const emergencyStop = () => {
         fetch(`${url}bumper_engaged`)
             .then((response) => {
-                Swal.fire({
-                    position: 'middle',
-                    icon: 'success',
-                    title: 'Emergency stop sms sent',
-                    showConfirmButton: false,
-                    timer: 1500
-                })
+                if (response.status === 404) {
+                    Swal.fire({
+                        position: 'center',
+                        icon: 'error',
+                        title: `Unable to send message`,
+                        showConfirmButton: false,
+                        timer: 1500
+                    })
+                } else {
+                    Swal.fire({
+                        position: 'center',
+                        icon: 'success',
+                        title: 'Emergency stop sms sent',
+                        showConfirmButton: false,
+                        timer: 1500
+                    })
+                }
                 console.log(response)
             })
     }
@@ -95,13 +130,23 @@
         console.log("debugging to start the cleaning plan")
         fetch(`${url}cleaning_starting`)
             .then((response) => {
-                Swal.fire({
-                    position: 'middle',
-                    icon: 'success',
-                    title: 'Cleaning started sms has been sent',
-                    showConfirmButton: false,
-                    timer: 1500
-                })
+                if (response.status === 404) {
+                    Swal.fire({
+                        position: 'center',
+                        icon: 'error',
+                        title: `Unable to send message`,
+                        showConfirmButton: false,
+                        timer: 1500
+                    })
+                } else {
+                    Swal.fire({
+                        position: 'center',
+                        icon: 'success',
+                        title: 'Cleaning started sms has been sent',
+                        showConfirmButton: false,
+                        timer: 1500
+                    })
+                }
                 console.log(response)
             })
     }
