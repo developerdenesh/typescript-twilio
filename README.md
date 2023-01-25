@@ -44,6 +44,9 @@ PRODUCTION_NUMBERS=+6582345678   # Free to define
 # -t flag is to name and optionally a tag in the 'name:tag' format
 sudo docker build -t developerdenesh/typescript-notifications:1.0 .
 sudo docker run --env-file=.env -p 3000:3000 developerdenesh/typescript-notifications:1.0
+
+# or simply pull the docker image from dockerhub 
+sudo docker run --env-file=.env developerdenesh/typescript-notifications
 ```
 
 ## CI/CD
