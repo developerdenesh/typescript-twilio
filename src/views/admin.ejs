@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/css/bootstrap.min.css"
+        integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <title>Notifications</title>
+    <style>
+        body {
+            background-color: black;
+        }
+
+        .centering {
+            color: white;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin-bottom: 10vh;
+            margin-top: 50vh;
+        }
+
+        .bottom-centering {
+            color: white;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 1vh;
+            padding: 10px;
+        }
+
+        .btn-padding {
+            margin: 10px;
+        }
+
+        .custom {
+            padding: 30px;
+            width: 49vw;
+        }
+    </style>
+</head>
+
+<body>
+    <nav class="navbar bg-dark">
+        <ul class="navbar-nav mr-auto">
+        </ul>
+        <a class="nav-link" onclick="history.back()" style="color: blue;">Back</a>
+        <a class="nav-link" href="/custom">Custom</a>
+        <a class="nav-link" href="/">Logout</a>
+    </nav>
+    <h1 class="centering">
+        <%= headline %>
+    </h1>
+    <div class="bottom-centering">
+        <div class="row">
+            <form action="/admin_updated" method="POST">
+                <table>
+                    <tr>
+                        <td>port:</td>
+                        <td>
+                            <%= port %>
+                        </td>
+                    </tr>
+
+                    <tr>
+                        <td>environment:</td>
+                        <td>
+                            <%= environment %>
+                        </td>
+                    </tr>
+
+                    <tr>
+                        <td>accountSid:</td>
+                        <td>
+                            <%= accountSid %>
+                        </td>
+                    </tr>
+
+                    <tr>
+                        <td>authToken:</td>
+                        <td>
+                            <%= authToken %>
+                        </td>
+                    </tr>
+
+                    <tr>
+                        <td>sms_id:</td>
+                        <td>
+                            <%= sms_id %>
+                        </td>
+                    </tr>
+
+                    <tr>
+                        <td>phone_numbers_debug:</td>
+                        <td>
+                            <input placeholder="<%= phone_numbers_debug %>" style="width: 70vw"
+                                id="phone_numbers_debug_input" />
+                        </td>
+                    </tr>
+
+                    <tr>
+                        <td>phone_numbers_production:</td>
+                        <td>
+                            <input placeholder="<%= phone_numbers_production %>" style="width: 70vw"
+                                id="phone_numbers_production_input" />
+
+
+                        </td>
+                    </tr>
+
+                    <tr>
+                        <td>username:</td>
+                        <td>
+                            <%= username %>
+                        </td>
+                    </tr>
+
+                    <tr>
+                        <td>password:</td>
+                        <td>
+                            <%= password %>
+                        </td>
+                    </tr>
+                </table>
+
+            </form>
+
+            <button class="btn btn-success btn-padding" onclick="saveAdminDetails()">
+                Save
+            </button>
+        </div>
+    </div>
+
+    <div style="color: white;">
+
+    </div>
+</body>
+
+<script>
+    const url = window.location.origin + "/";
+
+    const saveAdminDetails = () => {
+
+        // Get the 2 inputs in this form
+        const debug_input = document.getElementById('phone_numbers_debug_input')
+        const production_input = document.getElementById('phone_numbers_production_input')
+
+        // Grab their values
+        const debug_value = (debug_input.value === "") ? (debug_input.placeholder) : (debug_input.value);
+        const production_value = (production_input.value === "") ? (production_input.placeholder) : (production_input.value);
+
+        const form = document.querySelector('form')
+        console.log(form.elements)
+        return;
+        form.submit()
+        return;
+
+
+        fetch(`${url}admin_detail`, {
+
+            // Adding method type
+            method: "POST",
+
+            // Adding body or contents to send
+            body: JSON.stringify({
+                debug_numbers: `${debug_value}`,
+                production_numbers: `${production_value}`,
+            }),
+
+            // Adding headers to the request
+            headers: {
+                "Content-type": "application/json; charset=UTF-8"
+            },
+
+            redirect: 'follow'
+        })
+            .then((response) => {
+                if (response.status === 404) {
+                    Swal.fire({
+                        position: 'center',
+                        icon: 'error',
+                        title: `Unable to send message`,
+                        showConfirmButton: false,
+                        timer: 1500
+                    })
+                } else {
+                    console.log("hello")
+                    console.log(response)
+                        (response.redirected && (location.href = response.url))
+                    Swal.fire({
+                        position: 'center',
+                        icon: 'success',
+                        title: 'Emergency stop sms sent',
+                        showConfirmButton: false,
+                        timer: 1500
+                    })
+                }
+                console.log(response)
+            })
+    }
+
+    const input = document.querySelectorAll('input');
+    input.forEach(element => {
+        element.addEventListener("keydown", (e) => {
+            if (e.key === "ArrowRight") {
+                element.value = element.placeholder
+            }
+        })
+    })
+    console.log(input)
+
+</script>
+
+</html>

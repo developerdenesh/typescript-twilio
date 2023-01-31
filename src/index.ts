@@ -1,19 +1,33 @@
 import express, { Express, Request, Response } from 'express';
 import { Twilio } from "twilio";
 import { sendMessage } from './helper'
-import { 
-    accountSid, 
-    authToken, 
+import {
+    accountSid,
+    authToken,
     environment,
-    password, 
-    phone_numbers_debug, 
-    phone_numbers_production, 
+    password,
+    phone_numbers_debug,
+    phone_numbers_production,
     port,
-    robot_name, 
+    robot_name,
     username,
-    sms_id, 
+    sms_id,
 } from './variables'
-import path from 'path'
+
+import loginrouter from './routes/login'
+import homerouter from './routes/homer'
+import customrouter from './routes/custom'
+import adminrouter from './routes/administer'
+import adminupdatedrouter from './routes/adminupdaterouter'
+
+import cleaningcompletedapi from './api/cleaningcompleted'
+import cleaningcompleteddebugapi from './api/cleaningcompleteddebug'
+import cleaningstartedapi from './api/cleaningstartedapi'
+import bumberengagedapi from './api/bumperengagedapi'
+import cleaningstarteddebugapi from './api/cleaningstarteddebugapi'
+import bumperengageddebugapi from './api/bumperengageddebugapi'
+import sendcustommessageapi from './api/sendcustommessage'
+import admindetailapi from './api/admindetail'
 
 // Using the express backend library
 const app: Express = express();
@@ -30,152 +44,27 @@ const client = new Twilio(accountSid, authToken);
 const phone_numbers_debug_arr: Array<string> = phone_numbers_debug.split(" ") || []
 const phone_numbers_production_arr: Array<string> = phone_numbers_production.split(" ") || []
 
+// ====================
 // These are the views
-app.post('/home', (req: Request, res: Response) => {
-    console.log('Welcome to the sms api. The 2 apis are: cleaning_completed and bumper_engaged');
+// ====================
+app.get('/', loginrouter);
+app.post('/home', homerouter);
+app.get('/custom', customrouter);
+app.get('/admin', adminrouter);
+app.get('/admin_updated', adminupdatedrouter);
 
-    if (req.body.username === username && req.body.password === password) {
-        res.render(path.join(__dirname, '../ejs/index'), {
-            headline: "Welcome to the Notifications page",
-        });
-    }
-    else {
-        res.redirect("/")
-    }
-});
 
-app.get('/', (req: Request, res: Response) => {
-    const message = 'Welcome to the sms api. The 2 apis are: cleaning_completed and bumper_engaged';
-    console.log(message)
-    // res.send(message);
-
-    res.render(path.join(__dirname, '../ejs/login'), {
-        headline: "Login Page",
-    });
-});
-
-app.get('/custom', (req: Request, res: Response) => {
-    res.render(path.join(__dirname, '../ejs/custom'), {
-        headline: "Custom Message",
-    });
-});
-
+// ====================
 // These are the API endpoints
-app.get('/cleaning_completed', (req: Request, res: Response) => {
-    console.log("inside the cleaning completed endpoint")
-    const date: Date = new Date();
-    const singapore_date = date.toLocaleString("en-GB", { timeZone: 'Asia/Singapore' })
-    const body: string = `${robot_name}: Cleaning plan is completed for Terminal 4 at time: ${singapore_date}`;
-
-    phone_numbers_debug_arr.map(out_number => {
-        sendMessage({ client, body, out_number, sms_id })
-    })
-
-    if (environment === "PRODUCTION") {
-        phone_numbers_production_arr.map(out_number => {
-            sendMessage({ client, body, out_number, sms_id })
-        })
-    }
-
-    res.send('Sending cleaning completed request: ' + body);
-});
-
-app.get('/cleaning_completed_debug', (req: Request, res: Response) => {
-    console.log("inside the cleaning completed endpoint for debugging")
-    const date: Date = new Date();
-    const singapore_date = date.toLocaleString("en-GB", { timeZone: 'Asia/Singapore' })
-    const body: string = `${robot_name}: Cleaning plan is completed for Terminal 4 at time: ${singapore_date} (this is a test message)`;
-
-    // This method only sends to the debug numbers
-    phone_numbers_debug_arr.map(out_number => {
-        sendMessage({ client, body, out_number, sms_id })
-    })
-
-    res.send('Sending cleaning completed request: ' + body);
-});
-
-
-app.get('/cleaning_starting', (req: Request, res: Response) => {
-    console.log("inside the cleaning completed endpoint")
-    const date: Date = new Date();
-    const singapore_date = date.toLocaleString("en-GB", { timeZone: 'Asia/Singapore' })
-    const body: string = `${robot_name}: Cleaning for Terminal 4 started at time: ${singapore_date}`;
-
-    phone_numbers_debug_arr.map(out_number => {
-        sendMessage({ client, body, out_number, sms_id })
-    })
-
-    if (environment === "PRODUCTION") {
-        phone_numbers_production_arr.map(out_number => {
-            sendMessage({ client, body, out_number, sms_id })
-        })
-    }
-
-    res.send('Sending cleaning completed request: ' + body);
-});
-
-app.get('/cleaning_starting_debug', (req: Request, res: Response) => {
-    console.log("inside the cleaning completed endpoint for debugging")
-    const date: Date = new Date();
-    const singapore_date = date.toLocaleString("en-GB", { timeZone: 'Asia/Singapore' })
-    const body: string = `${robot_name}: Cleaning for Terminal 4 started at time: ${singapore_date} (this is a test message)`;
-
-    // This method only sends to the debug numbers
-    phone_numbers_debug_arr.map(out_number => {
-        sendMessage({ client, body, out_number, sms_id })
-    })
-
-    res.send('Sending cleaning completed request: ' + body);
-});
-
-
-
-app.get('/bumper_engaged', (req: Request, res: Response) => {
-    console.log("inside the bumper engaged endpoint")
-    const date: Date = new Date();
-    const singapore_date = date.toLocaleString("en-GB", { timeZone: 'Asia/Singapore' })
-    const body: string = `${robot_name}: Robot has been stopped at ${singapore_date}. Please release the emergency stop`;
-
-    phone_numbers_debug_arr.map(out_number => {
-        sendMessage({ client, body, out_number, sms_id })
-    })
-
-    if (environment === "PRODUCTION") {
-        phone_numbers_production_arr.map(out_number => {
-            sendMessage({client, body, out_number, sms_id })
-        })
-    }
-
-    res.send('Sending bumper engaged request ' + body);
-});
-
-app.get('/bumper_engaged_debug', (req: Request, res: Response) => {
-    console.log("inside the bumper engaged endpoint for debugging")
-    const date: Date = new Date();
-    const singapore_date = date.toLocaleString("en-GB", { timeZone: 'Asia/Singapore' })
-    const body: string = `${robot_name}: Robot has been stopped at ${singapore_date}. Please release the emergency stop (this is a test message)`;
-
-    // This method only sends to the debug numbers
-    phone_numbers_debug_arr.map(out_number => {
-        sendMessage({ client, body, out_number, sms_id })
-    })
-
-    res.send('Sending bumper engaged request ' + body);
-});
-
-app.post('/send_custom_message', (req: Request, res: Response) => {
-    console.log("inside the custom sms endpoint")
-    const date: Date = new Date();
-    const singapore_date = date.toLocaleString("en-GB", { timeZone: 'Asia/Singapore' })
-    const body: string = `${singapore_date}: ${req.body.message}`;
-
-    // This method only sends to the debug numbers
-    phone_numbers_debug_arr.map(out_number => {
-        sendMessage({ client, body, out_number, sms_id })
-    })
-
-    res.send('Custom message: ' + body);
-});
+// ====================
+app.get('/cleaning_completed', cleaningcompletedapi);
+app.get('/cleaning_completed_debug', cleaningcompleteddebugapi);
+app.get('/cleaning_starting', cleaningstartedapi);
+app.get('/cleaning_starting_debug', cleaningstarteddebugapi);
+app.get('/bumper_engaged', bumberengagedapi);
+app.get('/bumper_engaged_debug', bumperengageddebugapi);
+app.post('/send_custom_message', sendcustommessageapi);
+app.post('/admin_detail', admindetailapi);
 
 // This is the listening for the localhost
 app.listen(port, () => {
