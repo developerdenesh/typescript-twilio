@@ -28,7 +28,7 @@ const cleaningcompletedapi = (req: Request, res: Response) => {
     console.log("inside the cleaning completed endpoint")
     const date: Date = new Date();
     const singapore_date = date.toLocaleString("en-GB", { timeZone: 'Asia/Singapore' })
-    const body: string = `${robot_name}: Cleaning plan is completed for Terminal 4 at time: ${singapore_date}`;
+    const body: string = `${robot_name}: Cleaning plan is completed for Terminal 2 at time: ${singapore_date}`;
 
     debug_nums.map(out_number => {
         sendMessage({ client, body, out_number, sms_id })

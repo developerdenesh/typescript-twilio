@@ -24,7 +24,7 @@ const cleaningcompleteddebugapi = (req: Request, res: Response) => {
     console.log("inside the cleaning completed endpoint for debugging")
     const date: Date = new Date();
     const singapore_date = date.toLocaleString("en-GB", { timeZone: 'Asia/Singapore' })
-    const body: string = `${robot_name}: Cleaning for Terminal 4 started at time: ${singapore_date} (this is a test message)`;
+    const body: string = `${robot_name}: Cleaning for Terminal 2 started at time: ${singapore_date} (this is a test message)`;
     
     // This method only sends to the debug numbers
     debug_nums.map(out_number => {
