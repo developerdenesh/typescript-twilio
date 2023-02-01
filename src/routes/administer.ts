@@ -13,8 +13,9 @@ import {
     sms_id,
 } from '../variables'
 
-const adminrouter = (req: Request, res: Response) => {
-    res.render(path.join(__dirname, '../views/admin'), {
+
+const adminrouter = (req: Request, res: Response): void => {
+    res.render(path.join(__dirname, '../../views/admin'), {
         headline: "Admin",
         port: port,
         environment: environment,

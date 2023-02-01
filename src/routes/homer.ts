@@ -6,7 +6,7 @@ const homerouter = (req: Request, res: Response) => {
     console.log('Logged in');
 
     if (req.body.username === username && req.body.password === password) {
-        res.render(path.join(__dirname, '../views/index'), {
+        res.render(path.join(__dirname, '../../views/index'), {
             headline: "Welcome to the Notifications page",
         });
     }

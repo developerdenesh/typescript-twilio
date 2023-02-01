@@ -6,7 +6,7 @@ const loginrouter = (req: Request, res: Response) => {
     console.log(message)
     // res.send(message);
 
-    res.render(path.join(__dirname, '../views/login.ejs'), {
+    res.render(path.join(__dirname, '../../views/login.ejs'), {
         headline: "Login Page",
     });
 }
