@@ -97,6 +97,7 @@
                         <td>
                             <input name="debug_numbers" placeholder="<%= phone_numbers_debug %>" style="width: 70vw"
                                 id="phone_numbers_debug_input" />
+                            <input name="old_debug_numbers" placeholder="<%= phone_numbers_debug %>" style="display: none;"/>
                         </td>
                     </tr>
 
@@ -105,6 +106,7 @@
                         <td>
                             <input name="production_numbers" placeholder="<%= phone_numbers_production %>" style="width: 70vw"
                                 id="phone_numbers_production_input" />
+                                <input name="old_production_nums" placeholder="<%= phone_numbers_production %>" style="display: none"/>
                         </td>
                     </tr>
                 </table>
@@ -138,11 +140,15 @@
 
         const form = document.querySelector('form')
         const elements = Array.from(form.elements)
+        console.log(elements)
         elements.map(element => {
             if (element.id === "phone_numbers_debug_input") {
                 element.value = debug_value;
-            } else {
+            } else if (element.id === "phone_numbers_production_input") {
+                console.log(element)
                 element.value = production_value;
+            } else {
+                element.value = element.placeholder
             }
         })
         form.submit()
