@@ -1,18 +1,6 @@
-import express, { Express, Request, Response } from 'express';
-import { Twilio } from "twilio";
-import { sendMessage } from './helper'
-import {
-    accountSid,
-    authToken,
-    environment,
-    password,
-    phone_numbers_debug,
-    phone_numbers_production,
-    port,
-    robot_name,
-    username,
-    sms_id,
-} from './variables'
+import express, { Express } from 'express';
+import { port } from './variables'
+import connectdynamo from './controllers/dynamo'
 
 import loginrouter from './routes/login'
 import homerouter from './routes/homer'
@@ -29,6 +17,11 @@ import bumperengageddebugapi from './api/bumperengageddebugapi'
 import sendcustommessageapi from './api/sendcustommessage'
 import admindetailapi from './api/admindetail'
 
+// ====================
+// Perform connections to the controller
+// ====================
+connectdynamo()
+
 // Using the express backend library
 const app: Express = express();
 
@@ -38,11 +31,6 @@ app.set('view engine', 'ejs');
 // This is required to make forms work
 app.use(express.urlencoded({ extended: true }))
 app.use(express.json())
-
-// Constant variables to be used in the endpoints later
-const client = new Twilio(accountSid, authToken);
-const phone_numbers_debug_arr: Array<string> = phone_numbers_debug.split(" ") || []
-const phone_numbers_production_arr: Array<string> = phone_numbers_production.split(" ") || []
 
 // ====================
 // These are the views

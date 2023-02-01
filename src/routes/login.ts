@@ -2,7 +2,7 @@ import { Request, Response } from 'express';
 import path from 'path'
 
 const loginrouter = (req: Request, res: Response) => {
-    const message = 'Welcome to the sms api. The 2 apis are: cleaning_completed and bumper_engaged';
+    const message = 'Welcome to the notifications application';
     console.log(message)
     // res.send(message);
 

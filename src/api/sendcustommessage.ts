@@ -5,19 +5,20 @@ import {
     authToken,
     environment,
     password,
-    phone_numbers_debug,
-    phone_numbers_production,
     port,
     robot_name,
     username,
     sms_id,
 } from '../variables'
 import { Twilio } from "twilio";
+import {
+    debug_nums,
+} from '../controllers/dynamo'
 
 
 const client = new Twilio(accountSid, authToken);
-const phone_numbers_debug_arr: Array<string> = phone_numbers_debug.split(" ") || []
-const phone_numbers_production_arr: Array<string> = phone_numbers_production.split(" ") || []
+// const phone_numbers_debug_arr: Array<string> = phone_numbers_debug.split(" ") || []
+// const phone_numbers_production_arr: Array<string> = phone_numbers_production.split(" ") || []
 
 const cleaningcompleteddebugapi = (req: Request, res: Response) => {
     console.log("inside the custom sms endpoint")
@@ -26,7 +27,7 @@ const cleaningcompleteddebugapi = (req: Request, res: Response) => {
     const body: string = `${singapore_date}: ${req.body.message}`;
 
     // This method only sends to the debug numbers
-    phone_numbers_debug_arr.map(out_number => {
+    debug_nums.map(out_number => {
         sendMessage({ client, body, out_number, sms_id })
     })
 

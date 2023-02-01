@@ -13,10 +13,13 @@ import {
     sms_id,
 } from '../variables'
 import { Twilio } from "twilio";
+import {
+    production_nums
+} from '../controllers/dynamo'
 
 
 const client = new Twilio(accountSid, authToken);
-const phone_numbers_debug_arr: Array<string> = phone_numbers_debug.split(" ") || []
+// const phone_numbers_debug_arr: Array<string> = phone_numbers_debug.split(" ") || []
 
 const cleaningcompleteddebugapi = (req: Request, res: Response) => {
     console.log("inside the cleaning completed endpoint for debugging")
@@ -25,7 +28,7 @@ const cleaningcompleteddebugapi = (req: Request, res: Response) => {
     const body: string = `${robot_name}: Cleaning plan is completed for Terminal 4 at time: ${singapore_date} (this is a test message)`;
 
     // This method only sends to the debug numbers
-    phone_numbers_debug_arr.map(out_number => {
+    production_nums.map(out_number => {
         sendMessage({ client, body, out_number, sms_id })
     })
 

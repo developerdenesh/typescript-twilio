@@ -12,12 +12,16 @@ import {
     username,
     sms_id,
 } from '../variables'
+import {
+    debug_nums,
+    production_nums
+} from '../controllers/dynamo'
 import { Twilio } from "twilio";
 
 
 const client = new Twilio(accountSid, authToken);
-const phone_numbers_debug_arr: Array<string> = phone_numbers_debug.split(" ") || []
-const phone_numbers_production_arr: Array<string> = phone_numbers_production.split(" ") || []
+// const phone_numbers_debug_arr: Array<string> = phone_numbers_debug.split(" ") || []
+// const phone_numbers_production_arr: Array<string> = phone_numbers_production.split(" ") || []
 
 
 const cleaningcompletedapi = (req: Request, res: Response) => {
@@ -26,12 +30,12 @@ const cleaningcompletedapi = (req: Request, res: Response) => {
     const singapore_date = date.toLocaleString("en-GB", { timeZone: 'Asia/Singapore' })
     const body: string = `${robot_name}: Cleaning plan is completed for Terminal 4 at time: ${singapore_date}`;
 
-    phone_numbers_debug_arr.map(out_number => {
+    debug_nums.map(out_number => {
         sendMessage({ client, body, out_number, sms_id })
     })
 
     if (environment === "PRODUCTION") {
-        phone_numbers_production_arr.map(out_number => {
+        production_nums.map(out_number => {
             sendMessage({ client, body, out_number, sms_id })
         })
     }
