@@ -18,7 +18,7 @@ const obtainNumbers = async () => {
         TableName: 'debugnumbers',
     }, (err, data) => {
         if (err) {
-            console.log("Error!!!:", err);
+            console.log("Error:", err);
         } else {
             if (data.Items && data.Items.length === 1) {
                 // In case the data is undefined

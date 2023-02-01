@@ -31,15 +31,6 @@
             height: 1vh;
             padding: 10px;
         }
-
-        .btn-padding {
-            margin: 10px;
-        }
-
-        .custom {
-            padding: 30px;
-            width: 49vw;
-        }
     </style>
 </head>
 
@@ -58,41 +49,28 @@
         <div class="row">
             <table>
                 <tr>
-                    <td>phone_numbers_debug:</td>
                     <td>
-                        <input placeholder="<%= phone_numbers_debug %>" style="width: 70vw"
-                            id="phone_numbers_debug_input" />
+                        <h3>
+                            Debug Numbers:
+                        </h3>
+                    </td>
+                    <td>
+                        <%= phone_numbers_debug %>
                     </td>
                 </tr>
 
                 <tr>
-                    <td>phone_numbers_production:</td>
                     <td>
-                        <input placeholder="<%= phone_numbers_production %>" style="width: 70vw"
-                            id="phone_numbers_production_input" />
-
-
+                        <h3>
+                            Production Numbers:
+                        </h3>
+                    <td>
+                        <%= phone_numbers_production %>
                     </td>
                 </tr>
 
-                <tr>
-                    <td>username:</td>
-                    <td>
-                        <%= username %>
-                    </td>
-                </tr>
-
-                <tr>
-                    <td>password:</td>
-                    <td>
-                        <%= password %>
-                    </td>
-                </tr>
             </table>
 
-            <button class="btn btn-success btn-padding" onclick="saveAdminDetails()">
-                Save
-            </button>
         </div>
     </div>
 
@@ -100,74 +78,5 @@
 
     </div>
 </body>
-
-<script>
-    const url = window.location.origin + "/";
-
-    const saveAdminDetails = () => {
-
-        // Get the 2 inputs in this form
-        const debug_input = document.getElementById('phone_numbers_debug_input')
-        const production_input = document.getElementById('phone_numbers_production_input')
-
-        // Grab their values
-        const debug_value = (debug_input.value === "") ? (debug_input.placeholder) : (debug_input.value);
-        const production_value = (production_input.value === "") ? (production_input.placeholder) : (production_input.value);
-
-
-        fetch(`${url}admin_detail`, {
-
-            // Adding method type
-            method: "POST",
-
-            // Adding body or contents to send
-            body: JSON.stringify({
-                debug_numbers: `${debug_value}`,
-                production_numbers: `${production_value}`,
-            }),
-
-            // Adding headers to the request
-            headers: {
-                "Content-type": "application/json; charset=UTF-8"
-            },
-
-            redirect: 'follow'
-        })
-            .then((response) => {
-                if (response.status === 404) {
-                    Swal.fire({
-                        position: 'center',
-                        icon: 'error',
-                        title: `Unable to send message`,
-                        showConfirmButton: false,
-                        timer: 1500
-                    })
-                } else {
-                    console.log("hello")
-                    console.log(response)
-                    (response.redirected && (location.href = response.url))
-                    Swal.fire({
-                        position: 'center',
-                        icon: 'success',
-                        title: 'Emergency stop sms sent',
-                        showConfirmButton: false,
-                        timer: 1500
-                    })
-                }
-                console.log(response)
-            })
-    }
-
-    const input = document.querySelectorAll('input');
-    input.forEach(element => {
-        element.addEventListener("keydown", (e) => {
-            if (e.key === "ArrowRight") {
-                element.value = element.placeholder
-            }
-        })
-    })
-    console.log(input)
-
-</script>
 
 </html>

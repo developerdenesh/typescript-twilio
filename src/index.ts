@@ -39,7 +39,7 @@ app.get('/', loginrouter);
 app.post('/home', homerouter);
 app.get('/custom', customrouter);
 app.get('/admin', adminrouter);
-app.get('/admin_updated', adminupdatedrouter);
+app.post('/admin_updated', adminupdatedrouter);
 
 
 // ====================

@@ -92,11 +92,10 @@
                             <%= sms_id %>
                         </td>
                     </tr>
-
                     <tr>
                         <td>phone_numbers_debug:</td>
                         <td>
-                            <input placeholder="<%= phone_numbers_debug %>" style="width: 70vw"
+                            <input name="debug_numbers" placeholder="<%= phone_numbers_debug %>" style="width: 70vw"
                                 id="phone_numbers_debug_input" />
                         </td>
                     </tr>
@@ -104,31 +103,16 @@
                     <tr>
                         <td>phone_numbers_production:</td>
                         <td>
-                            <input placeholder="<%= phone_numbers_production %>" style="width: 70vw"
+                            <input name="production_numbers" placeholder="<%= phone_numbers_production %>" style="width: 70vw"
                                 id="phone_numbers_production_input" />
-
-
-                        </td>
-                    </tr>
-
-                    <tr>
-                        <td>username:</td>
-                        <td>
-                            <%= username %>
-                        </td>
-                    </tr>
-
-                    <tr>
-                        <td>password:</td>
-                        <td>
-                            <%= password %>
                         </td>
                     </tr>
                 </table>
-
             </form>
 
-            <button class="btn btn-success btn-padding" onclick="saveAdminDetails()">
+
+            <button class="btn btn-success btn-padding" onclick="saveAdminDetails()"
+                title="Save the numbers into the database">
                 Save
             </button>
         </div>
@@ -153,53 +137,16 @@
         const production_value = (production_input.value === "") ? (production_input.placeholder) : (production_input.value);
 
         const form = document.querySelector('form')
-        console.log(form.elements)
-        return;
+        const elements = Array.from(form.elements)
+        elements.map(element => {
+            if (element.id === "phone_numbers_debug_input") {
+                element.value = debug_value;
+            } else {
+                element.value = production_value;
+            }
+        })
         form.submit()
         return;
-
-
-        fetch(`${url}admin_detail`, {
-
-            // Adding method type
-            method: "POST",
-
-            // Adding body or contents to send
-            body: JSON.stringify({
-                debug_numbers: `${debug_value}`,
-                production_numbers: `${production_value}`,
-            }),
-
-            // Adding headers to the request
-            headers: {
-                "Content-type": "application/json; charset=UTF-8"
-            },
-
-            redirect: 'follow'
-        })
-            .then((response) => {
-                if (response.status === 404) {
-                    Swal.fire({
-                        position: 'center',
-                        icon: 'error',
-                        title: `Unable to send message`,
-                        showConfirmButton: false,
-                        timer: 1500
-                    })
-                } else {
-                    console.log("hello")
-                    console.log(response)
-                        (response.redirected && (location.href = response.url))
-                    Swal.fire({
-                        position: 'center',
-                        icon: 'success',
-                        title: 'Emergency stop sms sent',
-                        showConfirmButton: false,
-                        timer: 1500
-                    })
-                }
-                console.log(response)
-            })
     }
 
     const input = document.querySelectorAll('input');
@@ -210,7 +157,6 @@
             }
         })
     })
-    console.log(input)
 
 </script>
 
