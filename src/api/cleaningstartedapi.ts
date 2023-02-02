@@ -17,8 +17,6 @@ import {
 } from '../controllers/dynamo'
 
 
-
-
 const client = new Twilio(accountSid, authToken);
 // const phone_numbers_debug_arr: Array<string> = phone_numbers_debug.split(" ") || []
 // const phone_numbers_production_arr: Array<string> = phone_numbers_production.split(" ") || []
