@@ -10,7 +10,7 @@ export const production_nums: Array<string> = [];
 let debug_nums_modifier = debug_nums
 let production_nums_modifier = production_nums
 
-const convertCommasToSpaces = ({ input }: { input: string }): string => {
+export const convertCommasToSpaces = ({ input }: { input: string }): string => {
     // First remove spaces, then reduce mutliple commas to one comma then replace comma with a space
     const answer: string = input.replace(/ /g, "").replace(/,+/g,',').replace(/,/g, " ")
 
