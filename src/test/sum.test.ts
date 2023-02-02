@@ -26,4 +26,8 @@ describe("test string convertion for DB", () => {
   it("it should reduce multiple spaces to a single space", () => {
     expect(convertCommasToSpaces({ input: "    orange      "})).toBe("orange")
   })
+
+  it("it should reduce multiple spaces to a single space", () => {
+    expect(convertCommasToSpaces({ input: ",,,,,,    orange      "})).toBe("orange")
+  })
 })

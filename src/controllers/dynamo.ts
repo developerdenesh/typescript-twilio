@@ -12,10 +12,19 @@ let production_nums_modifier = production_nums
 
 export const convertCommasToSpaces = ({ input }: { input: string }): string => {
     // First remove spaces, then reduce mutliple commas to one comma then replace comma with a space
-    const answer: string = input.replace(/ /g, "").replace(/,+/g,',').replace(/,/g, " ")
+    const replaced_input: string = input.replace(/ /g, "").replace(/,+/g,',').replace(/,/g, " ");
+
+    let answer: string = replaced_input;
+    if (replaced_input.charAt(replaced_input.length - 1) === ' ') {
+        answer = replaced_input.substring(0, replaced_input.length - 1);
+    }
+
+    if (replaced_input.charAt(0) === ' ') {
+        answer = replaced_input.substring(1, replaced_input.length);
+    }
 
     // If the last character is a space, remove it
-    return (answer.charAt(answer.length - 1) === ' ') ? (answer.substring(0, answer.length - 1)) : (answer)
+    return answer;
 }
 
 
