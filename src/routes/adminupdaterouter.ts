@@ -3,7 +3,6 @@ import path from 'path'
 import { updateNumbers } from '../controllers/dynamo';
 
 const adminupdatedrouter = (req: Request, res: Response) => {
-    console.log(JSON.stringify(req.body))
     updateNumbers({ 
         old_debug_nums: req.body.old_debug_numbers,
         debug_nums: req.body.debug_numbers, 
