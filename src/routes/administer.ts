@@ -12,10 +12,15 @@ import {
 } from '../variables'
 import {
     debug_nums,
-    production_nums
-} from '../controllers/dynamo'
+    production_nums,
+}  from '../controllers/dynamo'
+import connectdynamo from '../controllers/dynamo'
 
-const adminrouter = (req: Request, res: Response): void => {
+const adminrouter = async (req: Request, res: Response) => {
+    // Obtain the latest values from the DB
+    const result = await connectdynamo();
+    console.log(result)
+
     res.render(path.join(__dirname, '../../views/admin'), {
         headline: "Admin",
         port: port,

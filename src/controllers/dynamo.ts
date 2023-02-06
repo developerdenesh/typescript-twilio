@@ -12,7 +12,7 @@ let production_nums_modifier = production_nums
 
 export const convertCommasToSpaces = ({ input }: { input: string }): string => {
     // First remove spaces, then reduce mutliple commas to one comma then replace comma with a space
-    const replaced_input: string = input.replace(/ /g, "").replace(/,+/g,',').replace(/,/g, " ");
+    const replaced_input: string = input.replace(/ /g, "").replace(/,+/g, ',').replace(/,/g, " ");
 
     let answer: string = replaced_input;
     if (replaced_input.charAt(replaced_input.length - 1) === ' ') {
@@ -28,33 +28,37 @@ export const convertCommasToSpaces = ({ input }: { input: string }): string => {
 }
 
 
-export const readNumbers = ({ modifier, tablename, ddb }: { modifier: Array<string>, tablename: string, ddb: AWS.DynamoDB }) => {
-    ddb.scan({
-        TableName: tablename,
-    }, (err, data) => {
-        if (err) {
-            console.log("Error:", err);
-        } else {
-            if (data.Items && data.Items.length === 1) {
-                // In case the data is undefined
-                const nums_string: string = (data.Items[0].numbers.S) ? (data.Items[0].numbers.S) : ("")
-                
-                // Clear the modifier
-                const length: number = modifier.length
-                for (let i = 0; i < length; i++) {
-                    modifier.pop()
+export const readNumbers = async ({ modifier, tablename, ddb }: { modifier: Array<string>, tablename: string, ddb: AWS.DynamoDB }) => {
+    return new Promise((resolve, reject) => {
+        ddb.scan({
+            TableName: tablename,
+        }, (err, data) => {
+            if (err) {
+                console.log("Error:", err);
+            } else {
+                if (data.Items && data.Items.length === 1) {
+                    // In case the data is undefined
+                    const nums_string: string = (data.Items[0].numbers.S) ? (data.Items[0].numbers.S) : ("")
+
+                    // Clear the modifier
+                    const length: number = modifier.length
+                    for (let i = 0; i < length; i++) {
+                        modifier.pop()
+                    }
+
+                    // Add the new numbers to the modifier
+                    nums_string.split(" ").map(element => {
+                        modifier.push(element)
+                    })
+
+                    resolve(true)
+
+                } else if (data.Items && data.Items.length > 1) {
+                    console.error(`There are more than one entries in the db: ${tablename}`)
                 }
-
-                // Add the new numbers to the modifier
-                nums_string.split(" ").map(element => {
-                    modifier.push(element)
-                })
-
-            } else if (data.Items && data.Items.length > 1) {
-                console.error(`There are more than one entries in the db: ${tablename}`)
             }
-        }
-    });
+        });
+    })
 }
 
 
@@ -101,23 +105,30 @@ const obtainNumbers = async () => {
     // Create the DynamoDB service object
     const ddb = new AWS.DynamoDB()
 
-    // Call DynamoDB to read the item from the table
-    readNumbers({
-        modifier: debug_nums_modifier,
-        tablename: 'debugnumbers',
-        ddb: ddb
+    return new Promise(async (resolve, reject) => {
+        // Call DynamoDB to read the item from the table
+        resolve(
+            await readNumbers({
+                modifier: debug_nums_modifier,
+                tablename: 'debugnumbers',
+                ddb: ddb
+            })
+
+            &&
+
+            await readNumbers({
+                modifier: production_nums_modifier,
+                tablename: 'phonenumbers',
+                ddb: ddb
+            })
+        )
     })
 
-    readNumbers({
-        modifier: production_nums_modifier,
-        tablename: 'phonenumbers',
-        ddb: ddb
-    })
 }
 
 
 export const updateNumbers = ({ debug_nums, old_debug_nums, production_nums, old_production_nums }: { debug_nums: string, old_debug_nums: string, production_nums: string, old_production_nums: string }) => {
-    
+
     // Create the DynamoDB service object
     const ddb = new AWS.DynamoDB()
 
