@@ -12,3 +12,8 @@ export const sendMessage = ({ client, body, out_number, sms_id }: {client: Twili
             console.log("sent the message: " + message.body + " from: " + message.sid)
         })
 }
+
+export const getSingaporeDate = (): string => {
+    const date: Date = new Date();
+    return date.toLocaleString("en-GB", { timeZone: 'Asia/Singapore' })
+}
