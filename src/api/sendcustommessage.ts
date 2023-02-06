@@ -1,29 +1,14 @@
 import { Request, Response } from 'express';
-import { sendMessage } from '../helper'
-import {
-    accountSid,
-    authToken,
-    environment,
-    password,
-    port,
-    robot_name,
-    username,
-    sms_id,
-} from '../variables'
+import { sendMessage, getSingaporeDate } from '../helper'
+import { accountSid, authToken, sms_id } from '../variables'
 import { Twilio } from "twilio";
-import {
-    debug_nums,
-} from '../controllers/dynamo'
-
+import { debug_nums } from '../controllers/dynamo'
 
 const client = new Twilio(accountSid, authToken);
-// const phone_numbers_debug_arr: Array<string> = phone_numbers_debug.split(" ") || []
-// const phone_numbers_production_arr: Array<string> = phone_numbers_production.split(" ") || []
 
 const cleaningcompleteddebugapi = (req: Request, res: Response) => {
     console.log("inside the custom sms endpoint")
-    const date: Date = new Date();
-    const singapore_date = date.toLocaleString("en-GB", { timeZone: 'Asia/Singapore' })
+    const singapore_date: string = getSingaporeDate()
     const body: string = `${singapore_date}: ${req.body.message}`;
 
     // This method only sends to the debug numbers

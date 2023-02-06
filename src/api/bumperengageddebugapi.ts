@@ -1,30 +1,13 @@
 import { Request, Response } from 'express';
-import { sendMessage } from '../helper'
-import {
-    accountSid,
-    authToken,
-    environment,
-    password,
-    phone_numbers_debug,
-    phone_numbers_production,
-    port,
-    robot_name,
-    username,
-    sms_id,
-} from '../variables'
+import { sendMessage, getSingaporeDate } from '../helper'
+import { accountSid, authToken, robot_name, sms_id } from '../variables'
 import { Twilio } from "twilio";
-import {
-    debug_nums,
-    production_nums
-} from '../controllers/dynamo'
-
+import { debug_nums } from '../controllers/dynamo'
 
 const client = new Twilio(accountSid, authToken);
-// const phone_numbers_debug_arr: Array<string> = phone_numbers_debug.split(" ") || []
 
 const bumperengageddebugapi = (req: Request, res: Response) => {
-    const date: Date = new Date();
-    const singapore_date = date.toLocaleString("en-GB", { timeZone: 'Asia/Singapore' })
+    const singapore_date: string = getSingaporeDate()
     
     let base_triggered: any = (req.query.base_triggered === undefined) ? ("undefined") : (req.query.base_triggered);
     let module_triggered: any = (req.query.module_triggered === undefined) ? ("undefined") : (req.query.module_triggered);

@@ -1,30 +1,14 @@
 import { Request, Response } from 'express';
-import { sendMessage } from '../helper'
-import {
-    accountSid,
-    authToken,
-    environment,
-    password,
-    phone_numbers_debug,
-    phone_numbers_production,
-    port,
-    robot_name,
-    username,
-    sms_id,
-} from '../variables'
+import { sendMessage, getSingaporeDate } from '../helper'
+import { accountSid, authToken, robot_name, sms_id } from '../variables'
 import { Twilio } from "twilio";
-import {
-    production_nums
-} from '../controllers/dynamo'
-
+import { production_nums } from '../controllers/dynamo'
 
 const client = new Twilio(accountSid, authToken);
-// const phone_numbers_debug_arr: Array<string> = phone_numbers_debug.split(" ") || []
 
 const cleaningcompleteddebugapi = (req: Request, res: Response) => {
     console.log("inside the cleaning completed endpoint for debugging")
-    const date: Date = new Date();
-    const singapore_date = date.toLocaleString("en-GB", { timeZone: 'Asia/Singapore' })
+    const singapore_date: string = getSingaporeDate()
     const body: string = `${robot_name}: Cleaning plan is completed for Terminal 2 at time: ${singapore_date} (this is a test message)`;
 
     // This method only sends to the debug numbers
