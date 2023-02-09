@@ -2,9 +2,9 @@ import { Request, Response } from 'express';
 import { sendMessage, getSingaporeDate } from '../helper'
 import { accountSid, authToken, robot_name, sms_id } from '../variables'
 import { Twilio } from "twilio";
-import { production_nums } from '../controllers/dynamo'
+import { debug_nums } from '../controllers/dynamo'
 
-const client = new Twilio(accountSid, authToken);
+const client: Twilio = new Twilio(accountSid, authToken);
 
 const cleaningcompleteddebugapi = (req: Request, res: Response) => {
     console.log("inside the cleaning completed endpoint for debugging")
@@ -12,7 +12,7 @@ const cleaningcompleteddebugapi = (req: Request, res: Response) => {
     const body: string = `${robot_name}: Cleaning plan is completed for Terminal 2 at time: ${singapore_date} (this is a test message)`;
 
     // This method only sends to the debug numbers
-    production_nums.map(out_number => {
+    debug_nums.map(out_number => {
         sendMessage({ client, body, out_number, sms_id })
     })
 
