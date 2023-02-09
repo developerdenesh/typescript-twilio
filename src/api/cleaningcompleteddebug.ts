@@ -4,7 +4,7 @@ import { accountSid, authToken, robot_name, sms_id } from '../variables'
 import { Twilio } from "twilio";
 import { debug_nums } from '../controllers/dynamo'
 
-const client: Twilio = new Twilio(accountSid, authToken);
+const client = new Twilio(accountSid, authToken);
 
 const cleaningcompleteddebugapi = (req: Request, res: Response) => {
     console.log("inside the cleaning completed endpoint for debugging")

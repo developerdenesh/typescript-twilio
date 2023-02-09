@@ -103,7 +103,7 @@ const deleteAndUpdateItem = ({ old_numbers, new_numbers, tablename, ddb }: { old
 
 const obtainNumbers = async () => {
     // Create the DynamoDB service object
-    const ddb: AWS.DynamoDB = new AWS.DynamoDB()
+    const ddb = new AWS.DynamoDB()
 
     return new Promise(async (resolve, reject) => {
         // Call DynamoDB to read the item from the table
@@ -130,7 +130,7 @@ const obtainNumbers = async () => {
 export const updateNumbers = ({ debug_nums, old_debug_nums, production_nums, old_production_nums }: { debug_nums: string, old_debug_nums: string, production_nums: string, old_production_nums: string }) => {
 
     // Create the DynamoDB service object
-    const ddb: AWS.DynamoDB = new AWS.DynamoDB()
+    const ddb = new AWS.DynamoDB()
 
     const old_debug_nums_spaced = convertCommasToSpaces({ input: old_debug_nums })
     const old_production_nums_spaced = convertCommasToSpaces({ input: old_production_nums })
