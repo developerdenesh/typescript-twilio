@@ -32,6 +32,10 @@ jobs:
         run: |
           npm i
 
+      - name: "Tests"
+        run: |
+          npm test
+
       - name: "Build typescript files"
         run: |
           npm run build
